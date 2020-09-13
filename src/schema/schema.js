@@ -9,7 +9,10 @@ const {
 } = graphql;
 const _ = require("lodash");
 
-//dummy data
+/* -------------------------
+   Dummy Data
+   -------------------------
+ */
 let books = [
     { name: 'Name of the Wild', genre: 'Fantasy', id: '1', authorId: '1' },
     { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
@@ -74,6 +77,18 @@ const RootQuery = new GraphQLObjectType({
             },
             resolve(parent, args) {
                 return _.find(authors, { id: args.id })
+            }
+        },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, agrs) {
+                return books
+            }
+        },
+        authors: {
+            type: new GraphQLList(AuthorType),
+            resolve(parent, args) {
+                return authors
             }
         }
     }
