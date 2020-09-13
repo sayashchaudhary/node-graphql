@@ -10,15 +10,15 @@ const _ = require("lodash");
 
 //dummy data
 let books = [
-    { name: 'Name of the Wild', genre: 'Fantacy', id: '1' },
-    { name: 'The Final Empire', genre: 'Fantacy', id: '2' },
-    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3' }
+    { name: 'Name of the Wild', genre: 'Fantacy', id: '1', authorId: '1' },
+    { name: 'The Final Empire', genre: 'Fantacy', id: '2', authorId: '2' },
+    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' }
 ]
 
 let authors = [
-    {name: 'Patrick', age: 44, id: '1'},
-    {name: 'Jk Rowling', age: 43, id: '2'},
-    {name: 'William', age: 48, id: '3'}
+    { name: 'Patrick', age: 44, id: '1' },
+    { name: 'Jk Rowling', age: 43, id: '2' },
+    { name: 'William', age: 48, id: '3' }
 ]
 
 const BookType = new GraphQLObjectType({
@@ -26,7 +26,13 @@ const BookType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        genre: { type: GraphQLString }
+        genre: { type: GraphQLString },
+        author: {
+            type: AuthorType,
+            resolve(parent, args) {
+                return _.find(authors, { id: parent.authorId })
+            }
+        }
     })
 });
 
